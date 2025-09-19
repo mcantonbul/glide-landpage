@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Destekli Glide Headless UI Kütüphanesi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        .workflow-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .workflow-card.active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(32, 201, 151, 0.2), 0 4px 6px -2px rgba(32, 201, 151, 0.1);
+            border-color: #20c997;
+        }
+        .workflow-card.inactive {
+            filter: grayscale(80%);
+            opacity: 0.6;
+        }
+        .prompt-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .workflow-card.active .prompt-list {
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <svg class="h-10" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 125 125"  xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:#C90C0F;}
+</style>
+<g>
+	<g>
+		<path class="st0" d="M69.3,0.3c31.5,3.3,56.1,29.9,56.2,62.3c0,34.6-28.1,62.7-62.7,62.7S0,97.4,0,62.7S28.1,0,62.7,0
+			C64.9,0,67.1,0.1,69.3,0.3z M72.5,121.1c32.2-5.4,53.9-35.9,48.5-68.1c-4.5-26.8-26.4-46.4-52.1-49c-5.2-0.5-10.6-0.4-16,0.5
+			C46.5,5.5,40.5,7.5,35,10.4c28.4,9.6,43.7,24.3,44.7,39.3c0.5,9.3-3.8,16-9.4,21.4l40.2-2.8c1.1-0.1,1.5,1.2,0.1,1.6L14.8,97.4
+			c9.7,13.4,24.9,22.4,41.7,24.1C61.7,122.1,67.1,122,72.5,121.1z M46.2,64.1c5.3-19.7-0.7-40.4-15.1-51.4
+			C11.6,25.1,0.3,48.3,4.4,72.5c1.3,8,4.2,15.4,8.3,21.8C28,90.1,41.4,82,46.2,64.1z"/>
+		<path class="st1" d="M121,52.9c5.4,32.2-16.3,62.7-48.5,68.1c-5.4,0.9-10.8,1.1-16,0.5c-16.8-1.8-32-10.7-41.7-24.1L110.6,70
+			c1.4-0.4,1-1.7-0.1-1.6l-40.2,2.8c5.7-5.5,10-12.2,9.4-21.4c-1.1-15-16.3-29.6-44.7-39.3c5.5-2.9,11.5-5,17.9-6.1
+			c5.4-0.9,10.8-1.1,16-0.5C94.7,6.6,116.5,26.1,121,52.9z M4.4,72.5c1.3,8,4.2,15.4,8.3,21.8C28,90.1,41.4,82,46.2,64.1
+			c5.3-19.7-0.7-40.4-15.1-51.4C11.6,25.1,0.3,48.3,4.4,72.5z"/>
+	</g>
+</g>
+
+
+</svg>
+                <span class="text-xl font-semibold text-gray-700">Turkish Technology - Glide Headless UI</span>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about" class="text-gray-600 hover:text-teal-500 transition">Proje Hakkında</a>
+                <a href="#workflow" class="text-gray-600 hover:text-teal-500 transition">AI Akışı</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="bg-white text-center py-20 lg:py-32">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight">
+                    AI ile Güçlendirilmiş <span class="text-teal-500">Glide Headless UI</span> Kütüphanesi
+                </h1>
+                <p class="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
+                    Geliştirme süreçlerini Claude Sonnet 4.0'ın gücüyle otomatize ederek daha hızlı, tutarlı ve yüksek kaliteli arayüz bileşenleri oluşturuyoruz.
+                </p>
+                <div class="mt-8">
+                    <a href="#workflow" class="bg-teal-500 text-white font-bold py-3 px-8 rounded-full hover:bg-teal-600 transition transform hover:scale-105">
+                        İş Akışını Keşfedin
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Proje Hakkında</h2>
+                    <p class="text-md text-gray-500 mt-2">Neden yapay zeka destekli bir yaklaşım benimsedik?</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="text-teal-500 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Verimlilik Artışı</h3>
+                        <p class="text-gray-600">Tekrarlayan kodlama, test ve dökümantasyon görevlerini otomatize ederek geliştirme döngüsünü önemli ölçüde hızlandırıyoruz.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="text-teal-500 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Kalite Standardizasyonu</h3>
+                        <p class="text-gray-600">Yapay zeka, en iyi pratikleri (best practices) ve WCAG 2.2 erişilebilirlik standartlarını tutarlı bir şekilde uygulayarak kod kalitesini yükseltir.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="text-teal-500 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V4a2 2 0 012-2h8z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">İnovasyona Odaklanma</h3>
+                        <p class="text-gray-600">Rutin işleri AI'a devrederek, ekibimizin daha karmaşık problemlere ve yaratıcı çözümlere odaklanmasını sağlıyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="workflow" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Etkileşimli AI Geliştirme Akışı</h2>
+                    <p class="text-md text-gray-500 mt-2">Bir bileşenin doğumundan dökümantasyonuna kadar olan yolculuğu keşfedin. Detay için herhangi bir adıma tıklayın.</p>
+                </div>
+                <div id="workflow-container" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Workflow cards will be inserted here by JS -->
+                </div>
+            </div>
+        </section>
+        
+        <section id="tech-stack" class="bg-white py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Teknoloji Gücümüz</h2>
+                    <p class="text-md text-gray-500 mt-2">Bu devrimi mümkün kılan araçlar ve modeller.</p>
+                </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
+                     <div class="text-center p-4">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                            <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/5fbe8138c128957e7ec3e18888ba0013394d36ad-888x95.svg" class="w-12 h-12 object-contain" alt="Claude Sonnet 4.0">
+                        </div>
+                        <h3 class="text-xl font-semibold">Claude Sonnet 4.0</h3>
+                        <p class="text-gray-600 mt-2">Karmaşık kodlama görevlerinde ve en iyi pratiklerin uygulanmasında kullandığımız yüksek yetenekli yapay zeka modelimiz.</p>
+                    </div>
+                     <div class="text-center p-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/250px-Visual_Studio_Code_1.35_icon.svg.png" class="w-16 h-16 mx-auto rounded-full mb-4 object-contain" alt="VSCode">
+                        <h3 class="text-xl font-semibold">VSCode Entegrasyonu</h3>
+                        <p class="text-gray-600 mt-2">Geliştiricilerin doğal çalışma ortamından ayrılmadan AI komutlarına doğrudan erişim.</p>
+                    </div>
+                     <div class="text-center p-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/GitHub_Copilot_logo.svg/180px-GitHub_Copilot_logo.svg.png" class="w-16 h-16 mx-auto rounded-full mb-4 object-contain" alt="GitHub Copilot">
+                        <h3 class="text-xl font-semibold">GitHub Copilot</h3>
+                        <p class="text-gray-600 mt-2">AI agentlarını kullanarak karmaşık görevleri otomatize etme ve geliştirici verimliliğini artırma.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-6">
+        <p>&copy; 2025 Turkish Techology - Glide Headless UI Library</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const workflowData = [
+                {
+                    title: '1. Talimat Oluşturma',
+                    icon: '&#x1F4BE;',
+                    description: 'AI, Radix, Headless UI gibi en iyi kütüphaneleri inceleyerek bileşenin gereksinimlerini ve davranışlarını tanımlayan talimat dosyalarını oluşturur. Bu aşamada web\'deki best practice\'leri analiz eder.',
+                    prompts: [
+                        { cmd: '/create-component-instructions', desc: 'Radix, Headless UI gibi kütüphaneleri inceleyerek talimat oluşturma' },
+                        { cmd: '/review-component-instructions', desc: 'Bileşen talimatlarını gözden geçirme' }
+                    ]
+                },
+                {
+                    title: '2. Bileşen Üretimi',
+                    icon: '&#x1F916;',
+                    description: 'AI, önceki aşamada hazırlanan talimatlar doğrultusunda yüksek performanslı, optimize edilmiş ve best practice\'lere uygun bileşen kodunu üretir.',
+                    prompts: [
+                        { cmd: '/generate-component', desc: 'Hazırlanan talimatlara göre bileşen kodu oluşturma' }
+                    ]
+                },
+                {
+                    title: '3. Test Yazımı',
+                    icon: '&#x1F4DD;',
+                    description: 'AI, üretilen bileşenin doğruluğunu ve kararlılığını garanti altına almak için otomatik olarak test senaryoları oluşturur.',
+                    prompts: [
+                        { cmd: '/generate-component-tests', desc: 'Bileşen için test senaryoları oluşturma' },
+                        { cmd: '/generate-component-accessibility-tests', desc: 'WCAG 2.2 standartlarına uygun erişilebilirlik testlerini oluşturma' }
+                    ]
+                },
+                {
+                    title: '4. Dökümantasyon',
+                    icon: '&#x1F4C4;',
+                    description: 'AI, bileşenin nasıl kullanılacağını açıklayan, anlaşılır ve kapsamlı dökümantasyon otomatik olarak hazırlar.',
+                    prompts: [
+                        { cmd: '/generate-component-docs', desc: 'Bileşen dökümantasyonunu oluşturma' }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('workflow-container');
+            
+            workflowData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'workflow-card bg-white p-6 rounded-lg shadow-md border-2 border-transparent';
+                
+                let promptsHtml = '<div class="prompt-list mt-4 pt-4 border-t border-gray-200 space-y-2">';
+                item.prompts.forEach(p => {
+                    promptsHtml += `<div class="text-left text-sm"><strong class="font-mono text-teal-600">${p.cmd}</strong><p class="text-gray-500">${p.desc}</p></div>`;
+                });
+                promptsHtml += '</div>';
+
+                card.innerHTML = `
+                    <div class="flex items-start space-x-4">
+                        <span class="text-3xl">${item.icon}</span>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">${item.title}</h3>
+                            <p class="text-gray-600 mt-1 text-sm">${item.description}</p>
+                        </div>
+                    </div>
+                    ${promptsHtml}
+                `;
+                container.appendChild(card);
+            });
+
+            const cards = container.querySelectorAll('.workflow-card');
+            cards.forEach((card, index) => {
+                card.addEventListener('click', () => {
+                    const isActive = card.classList.contains('active');
+                    cards.forEach(c => {
+                        c.classList.remove('active');
+                        c.classList.add('inactive');
+                    });
+                    if (!isActive) {
+                        card.classList.add('active');
+                        card.classList.remove('inactive');
+                    } else {
+                         cards.forEach(c => c.classList.remove('inactive'));
+                    }
+                });
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
